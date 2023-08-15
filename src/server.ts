@@ -1,15 +1,11 @@
-import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
+import App from "./app";
 
-dotenv.config();
+const app: App = new App();
 
-const app: Express = express();
-const port = process.env.PORT;
+app.init();
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to the CarDocBox Api by JoeMakuta!");
+app.server.listen(process.env.PORT, () => {
+  console.log("Server started at : http://localhost:" + process.env.PORT);
 });
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+export default app;
