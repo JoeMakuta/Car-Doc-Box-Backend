@@ -7,7 +7,7 @@ const app: Express = express();
 const port = process.env.PORT;
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to the CarDocBox Api !");
+  res.send("Welcome to the CarDocBox Api by JoeMakuta!");
 });
 
 app.listen(port, () => {
