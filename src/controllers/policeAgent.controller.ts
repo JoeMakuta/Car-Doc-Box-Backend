@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import { Request, Response, NextFunction } from "express";
 import * as httpError from "http-errors";
 import PoliceAgentModel from "../models/policeAgent.model";
@@ -35,8 +35,8 @@ export default class PoliceAgent {
     } catch (error) {
       res.status(500).json(<IServerResponse>{
         status: 500,
-        data: null,
         message: "error",
+        data: null,
         error: error,
       });
       // throw new httpError.Conflict("Une erreur est servenu !");
@@ -53,6 +53,87 @@ export default class PoliceAgent {
           data: response,
           error: null,
         });
+      }
+    } catch (error) {
+      res.status(500).json(<IServerResponse>{
+        status: 500,
+        data: null,
+        message: "error",
+        error: error,
+      });
+    }
+  }
+
+  static async getOne(req: Request, res: Response, next: NextFunction) {
+    try {
+      const response = await PoliceAgentModel.findByPk(req.params.id);
+      if (response) {
+        res.status(200).json(<IServerResponse>{
+          status: 200,
+          message: "The Agent",
+          data: response,
+          error: null,
+        });
+      } else {
+        throw new httpError.NotFound();
+      }
+    } catch (error) {
+      res.status(500).json(<IServerResponse>{
+        status: 500,
+        data: null,
+        message: "error",
+        error: error,
+      });
+    }
+  }
+
+  static async updateOne(req: Request, res: Response, next: NextFunction) {
+    try {
+      const valid = validate_police(req.body);
+      if (valid.error) {
+        throw new httpError.Forbidden(valid.error.details[0].message);
+      } else {
+        let response = await PoliceAgentModel.findByPk(req.params.id);
+        if (response) {
+          response = { ...response, ...req.body };
+          const response1 = await response?.save();
+          // const response1 = await PoliceAgentModel.update(response, {
+          //   ...req.body,
+          // });
+          res.status(200).json(<IServerResponse>{
+            status: 200,
+            message: "Agent updated !",
+            data: response1,
+            error: null,
+          });
+        } else {
+          throw new httpError.NotFound();
+        }
+      }
+    } catch (error) {
+      res.status(500).json(<IServerResponse>{
+        status: 500,
+        data: null,
+        message: "error",
+        error: error,
+      });
+    }
+  }
+
+  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+    try {
+      const response = await PoliceAgentModel.findByPk(req.params.id);
+      if (response) {
+        const response1 = response.destroy();
+        if (response1)
+          res.status(200).json(<IServerResponse>{
+            status: 200,
+            message: "Agent Deleted !",
+            data: response1,
+            error: null,
+          });
+      } else {
+        throw new httpError.NotFound();
       }
     } catch (error) {
       res.status(500).json(<IServerResponse>{
