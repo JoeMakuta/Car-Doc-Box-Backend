@@ -1,73 +1,76 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db";
 
-const PoliceAgentModel = sequelize.define("PoliceAgentModel", {
-   _id: {
+const PoliceAgentModel = sequelize.define(
+  "PoliceAgentModel",
+  {
+    _id: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
       unique: true,
       defaultValue: DataTypes.UUIDV4,
-   },
-   firstName: {
+    },
+    firstName: {
       type: DataTypes.STRING,
       allowNull: false,
-   },
-   lastName: {
+    },
+    lastName: {
       type: DataTypes.STRING,
-      allowNull: false
-   },
-   surName: {
+      allowNull: false,
+    },
+    surName: {
       type: DataTypes.STRING,
-   },
-   gender: {
+    },
+    gender: {
       type: DataTypes.CHAR,
       allowNull: false,
-   },
-   email: {
-      type: DataTypes.STRING,
-      allowNull: false
-   },
-   phone: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      allowNull: false
-   },
-   username: {
+    },
+    email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-   },
-   password: {
+    },
+    phone: {
+      type: DataTypes.JSON,
+      allowNull: false,
+    },
+    username: {
       type: DataTypes.STRING,
-      allowNull: false
-   },
-   birthDate: {
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    birthDate: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: DataTypes.NOW
-   },
-   photos: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: DataTypes.NOW,
+    },
+    photos: {
+      type: DataTypes.JSON,
       allowNull: true,
-   },
-   address: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+    },
+    address: {
+      type: DataTypes.JSON,
       allowNull: true,
-   },
-   role: {
+    },
+    role: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 2
-   },
-   policeLicense: {
+      defaultValue: 2,
+    },
+    policeLicense: {
       type: DataTypes.STRING,
       allowNull: false,
-   },
+    },
+  },
+  {
+    timestamps: true,
+    tableName: "PoliceAgent",
+  }
+);
 
-}, {
-   timestamps: true,
-   tableName: "PoliceAgent"
-})
-
-
-export default PoliceAgentModel
+export default PoliceAgentModel;

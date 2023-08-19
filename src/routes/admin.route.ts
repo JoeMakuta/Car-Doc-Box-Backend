@@ -1,9 +1,12 @@
-import express, {Router} from "express"
-import PoliceAgent from "../controllers/policeAgent.controller"
+import express, { Router } from "express";
+import PoliceAgent from "../controllers/policeAgent.controller";
 
-const adminRoute : express.Router = Router()
+const adminRoute: express.Router = Router();
 
-adminRoute.get('/', PoliceAgent.home )
-adminRoute.use('/signup', PoliceAgent.add )
+adminRoute.get("/:id", PoliceAgent.getOne);
+adminRoute.put("/:id", PoliceAgent.updateOne);
+adminRoute.delete("/:id", PoliceAgent.deleteOne);
+adminRoute.post("/signup", PoliceAgent.add);
+adminRoute.get("/", PoliceAgent.getAll);
 
-export default adminRoute
+export default adminRoute;
