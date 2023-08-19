@@ -9,7 +9,7 @@ export default class ExpressError extends Error {
     next: express.NextFunction
   ) {
     res.status(error.statusCode || 500).json(<IServerResponse>{
-      status: error.statusCode,
+      status: error.statusCode || 500,
       message: error.message,
       error: error.stack,
       data: null,
