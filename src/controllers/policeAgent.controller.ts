@@ -1,32 +1,35 @@
-import express, { response } from "express";
 import { Request, Response, NextFunction } from "express";
 import * as httpError from "http-errors";
 import PoliceAgentModel from "../models/policeAgent.model";
-import validate_police from "../validation/policeAgent.valid";
+import validate_police, {
+  validate_login,
+} from "../validation/policeAgent.valid";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const { TOKEN_SECRET, TOKEN_EXPIRES_IN } = process.env;
 
 export default class PoliceAgent {
-  // static async home(req: Request, res: Response, next: NextFunction) {
-  //   res.json(<IServerResponse>{
-  //     status: 200,
-  //     data: null,
-  //     message: "Police Agent : Home",
-  //     error: null,
-  //   });
-  // }
-
   static async add(req: Request, res: Response, next: NextFunction) {
     try {
       const valid = validate_police(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
+        const salt: string = await bcrypt.genSalt(10);
+        const password: string = await bcrypt.hash(req.body.password, salt);
+
         const response = await PoliceAgentModel.create({
           ...req.body,
+          password,
         });
         if (response) {
           res.status(200).json(<IServerResponse>{
             status: 200,
-            data: { ...req.body },
+            data: response,
             message: "Police Agent created successfully",
             error: null,
           });
@@ -106,6 +109,50 @@ export default class PoliceAgent {
           data: {},
           error: null,
         });
+      } else {
+        throw new httpError.NotFound();
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const validLogin = validate_login(req.body);
+      if (validLogin.error) {
+        throw new httpError.Forbidden(validLogin.error.details[0].message);
+      }
+      const response = await PoliceAgentModel.findOne({
+        where: { email: req.body.email },
+      });
+      if (response) {
+        const matched = await bcrypt.compare(
+          req.body.password,
+          response.dataValues.password
+        );
+        if (matched) {
+          let token = jwt.sign(
+            // Payload that will be returned when verifying the token
+            {
+              id: response.dataValues._id,
+              email: response.dataValues.email,
+            },
+            TOKEN_SECRET,
+            {
+              expiresIn: TOKEN_EXPIRES_IN,
+            }
+          );
+          console.log("The response : ", response);
+          res.status(200).json(<IServerResponse>{
+            status: 200,
+            message: "Logged in successfully !",
+            data: { token, ...response.dataValues },
+            error: null,
+          });
+        } else {
+          throw new httpError.Unauthorized();
+        }
       } else {
         throw new httpError.NotFound();
       }

@@ -18,4 +18,11 @@ const validate_police = (data: IPoliceAgent) => {
   }).validate(data);
 };
 
+export const validate_login = (data: IPoliceAgent) => {
+  return Joi.object({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(6),
+  }).validate(data);
+};
+
 export default validate_police;
