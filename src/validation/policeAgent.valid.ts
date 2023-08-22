@@ -1,4 +1,5 @@
 import Joi, * as joi from "joi";
+import { IPoliceAgent } from "../@types/user.type";
 
 const validate_police = (data: IPoliceAgent) => {
   return Joi.object({

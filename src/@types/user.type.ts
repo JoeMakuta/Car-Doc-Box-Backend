@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as jwt from "jsonwebtoken";
 
-interface IPoliceAgent {
+export interface IPoliceAgent {
   _id: string;
   firstName: string;
   lastName: string;
