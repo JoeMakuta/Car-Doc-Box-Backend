@@ -138,12 +138,11 @@ export default class PoliceAgent {
               id: response.dataValues._id,
               email: response.dataValues.email,
             },
-            TOKEN_SECRET,
+            TOKEN_SECRET as string,
             {
               expiresIn: TOKEN_EXPIRES_IN,
             }
           );
-          console.log("The response : ", response);
           res.status(200).json(<IServerResponse>{
             status: 200,
             message: "Logged in successfully !",

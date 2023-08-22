@@ -4,10 +4,10 @@ import verifyToken from "../middlewares/verifyToken";
 
 const adminRoute: express.Router = Router();
 
-adminRoute.get("/:id", PoliceAgent.getOne);
-adminRoute.put("/:id", PoliceAgent.updateOne);
-adminRoute.delete("/:id", PoliceAgent.deleteOne);
-adminRoute.post("/signup", PoliceAgent.add);
+adminRoute.get("/:id", verifyToken, PoliceAgent.getOne);
+adminRoute.put("/:id", verifyToken, PoliceAgent.updateOne);
+adminRoute.delete("/:id", verifyToken, PoliceAgent.deleteOne);
+adminRoute.post("/signup", verifyToken, PoliceAgent.add);
 adminRoute.post("/login", PoliceAgent.login);
 adminRoute.get("/", verifyToken, PoliceAgent.getAll);
 
