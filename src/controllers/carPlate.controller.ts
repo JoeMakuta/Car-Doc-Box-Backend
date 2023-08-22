@@ -7,30 +7,28 @@ import validate_police, {
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import validate_carplate from "../validation/carPlate.valid";
+import CarPlateModel from "../models/carPlate.model";
 
 dotenv.config();
 
 const { TOKEN_SECRET, TOKEN_EXPIRES_IN } = process.env;
 
-export default class PoliceAgent {
+export default class CarPlate {
   static async add(req: Request, res: Response, next: NextFunction) {
     try {
-      const valid = validate_police(req.body);
+      const valid = validate_carplate(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
-        const salt: string = await bcrypt.genSalt(10);
-        const password: string = await bcrypt.hash(req.body.password, salt);
-
-        const response = await PoliceAgentModel.create({
+        const response = await CarPlateModel.create({
           ...req.body,
-          password,
         });
         if (response) {
           res.status(200).json(<IServerResponse>{
             status: 200,
             data: response,
-            message: "Police Agent created successfully",
+            message: "Plate Created successfully !",
             error: null,
           });
         }
@@ -42,11 +40,11 @@ export default class PoliceAgent {
 
   static async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await PoliceAgentModel.findAll();
+      const response = await CarPlateModel.findAll();
       if (response) {
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "All Police Agents",
+          message: "All Car plates",
           data: response,
           error: null,
         });
@@ -58,11 +56,11 @@ export default class PoliceAgent {
 
   static async getOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await PoliceAgentModel.findByPk(req.params.id);
+      const response = await CarPlateModel.findByPk(req.params.id);
       if (response) {
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "The Agent",
+          message: "The Car Plate",
           data: response,
           error: null,
         });
@@ -76,16 +74,16 @@ export default class PoliceAgent {
 
   static async updateOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const valid = validate_police(req.body);
+      const valid = validate_carplate(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
-        const response = await PoliceAgentModel.findByPk(req.params.id);
+        const response = await CarPlateModel.findByPk(req.params.id);
         if (response) {
           const response1 = await response.update({ ...response, ...req.body });
           res.status(200).json(<IServerResponse>{
             status: 200,
-            message: "Agent updated !",
+            message: "Car Plate updated !",
             data: response1,
             error: null,
           });
@@ -100,58 +98,15 @@ export default class PoliceAgent {
 
   static async deleteOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await PoliceAgentModel.findByPk(req.params.id);
+      const response = await CarPlateModel.findByPk(req.params.id);
       if (response) {
         await response.destroy();
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "Agent Deleted !",
+          message: "Car Plate Deleted !",
           data: {},
           error: null,
         });
-      } else {
-        throw new httpError.NotFound();
-      }
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  static async login(req: Request, res: Response, next: NextFunction) {
-    try {
-      const validLogin = validate_login(req.body);
-      if (validLogin.error) {
-        throw new httpError.Forbidden(validLogin.error.details[0].message);
-      }
-      const response = await PoliceAgentModel.findOne({
-        where: { email: req.body.email },
-      });
-      if (response) {
-        const matched = await bcrypt.compare(
-          req.body.password,
-          response.dataValues.password
-        );
-        if (matched) {
-          let token = jwt.sign(
-            // Payload that will be returned when verifying the token
-            {
-              id: response.dataValues._id,
-              email: response.dataValues.email,
-            },
-            TOKEN_SECRET as string,
-            {
-              expiresIn: TOKEN_EXPIRES_IN,
-            }
-          );
-          res.status(200).json(<IServerResponse>{
-            status: 200,
-            message: "Logged in successfully !",
-            data: { token, ...response.dataValues },
-            error: null,
-          });
-        } else {
-          throw new httpError.Unauthorized();
-        }
       } else {
         throw new httpError.NotFound();
       }

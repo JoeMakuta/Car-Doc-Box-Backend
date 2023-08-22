@@ -1,4 +1,5 @@
 import Joi, * as joi from "joi";
+import { IPoliceAgent } from "../@types/user.type";
 
 const validate_police = (data: IPoliceAgent) => {
   return Joi.object({
@@ -15,6 +16,13 @@ const validate_police = (data: IPoliceAgent) => {
     address: Joi.array().items(Joi.string()),
     role: Joi.number().valid(1, 2, 3),
     policeLicense: Joi.string().required(),
+  }).validate(data);
+};
+
+export const validate_login = (data: IPoliceAgent) => {
+  return Joi.object({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(6),
   }).validate(data);
 };
 
