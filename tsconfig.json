@@ -9,5 +9,5 @@
     "skipLibCheck": true
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src/**/*", "src/**/*.ts", "./src/globals.d.ts"]
+  "include": ["src/**/*", "src/**/*.ts", "./src/@types"]
 }

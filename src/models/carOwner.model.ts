@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db";
+import CarModel from "./car.model";
+import DriverLicenseModel from "./driverLicense.model";
 
 const CarOwnerModel = sequelize.define(
   "CarOwnerModel",
@@ -73,5 +75,8 @@ const CarOwnerModel = sequelize.define(
     tableName: "CarOwner",
   }
 );
+
+CarOwnerModel.hasMany(CarModel);
+
 
 export default CarOwnerModel;

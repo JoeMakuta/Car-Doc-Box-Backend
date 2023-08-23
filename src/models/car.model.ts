@@ -3,6 +3,9 @@ import { sequelize } from "../db";
 import CarPlateModel from "./carPlate.model";
 import CarAssuranceModel from "./carAssurance.model";
 import CarTypeModel from "./carType.model";
+import CarStickerModel from "./carSticker.model";
+import CarPinkCardModel from "./carPinkCard.model";
+import CarTechControlModel from "./carTechControl.model";
 
 const CarModel = sequelize.define(
   "CarModel",
@@ -37,6 +40,9 @@ const CarModel = sequelize.define(
 CarPlateModel.hasOne(CarModel);
 CarAssuranceModel.hasOne(CarModel);
 CarPlateModel.hasOne(CarModel);
+CarStickerModel.hasOne(CarModel);
+CarPinkCardModel.hasOne(CarModel);
+CarTechControlModel.hasOne(CarModel);
 CarTypeModel.hasMany(CarModel);
 
 export default CarModel;

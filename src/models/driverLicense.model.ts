@@ -1,8 +1,9 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db";
+import CarOwnerModel from "./carOwner.model";
 
-const CarAssuranceModel = sequelize.define(
-  "CarAssuranceModel",
+const DriverLicenseModel = sequelize.define(
+  "DriverLicenseModel",
   {
     _id: {
       type: DataTypes.UUID,
@@ -11,7 +12,7 @@ const CarAssuranceModel = sequelize.define(
       unique: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    assurance: {
+    driverLicense: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
@@ -30,8 +31,10 @@ const CarAssuranceModel = sequelize.define(
   },
   {
     timestamps: true,
-    tableName: "CarAssurance",
+    tableName: "DriverLicense",
   }
 );
 
-export default CarAssuranceModel;
+DriverLicenseModel.hasOne(CarOwnerModel);
+
+export default DriverLicenseModel;

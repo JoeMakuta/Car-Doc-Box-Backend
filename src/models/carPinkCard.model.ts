@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db";
 
-const CarAssuranceModel = sequelize.define(
-  "CarAssuranceModel",
+const CarPinkCardModel = sequelize.define(
+  "CarPinkCardModel",
   {
     _id: {
       type: DataTypes.UUID,
@@ -11,7 +11,7 @@ const CarAssuranceModel = sequelize.define(
       unique: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    assurance: {
+    pinkCard: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
@@ -30,8 +30,8 @@ const CarAssuranceModel = sequelize.define(
   },
   {
     timestamps: true,
-    tableName: "CarAssurance",
+    tableName: "CarPinkCard",
   }
 );
 
-export default CarAssuranceModel;
+export default CarPinkCardModel;

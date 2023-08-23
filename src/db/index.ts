@@ -1,7 +1,5 @@
 import { Sequelize, DataTypes } from "sequelize";
 import * as dotenv from "dotenv";
-import CarModel from "../models/car.model";
-import CarAssuranceModel from "../models/carAssurance.model";
 
 dotenv.config();
 
@@ -19,7 +17,7 @@ import "../models/index.model";
 const dbconnexion = async () => {
   try {
     await sequelize
-      .sync({ force: true })
+      .sync({ alter: true })
       .then((res) => console.log("Successfull Db Sync and Connexion !"));
   } catch (error: any) {
     console.log("DB Connexion failed!", error?.message);

@@ -1,5 +1,5 @@
 import Joi, * as joi from "joi";
-import { ICarAssurance } from "../@types/carPlate.type copy";
+import { ICarAssurance } from "../@types/carAssurance.type";
 
 export const validate_car = (data: ICarAssurance) => {
   return Joi.object({
