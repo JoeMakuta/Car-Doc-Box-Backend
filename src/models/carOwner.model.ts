@@ -62,7 +62,8 @@ const CarOwnerModel = sequelize.define(
       allowNull: false,
       defaultValue: 2,
     },
-    policeLicense: {
+
+    nationalId: {
       type: DataTypes.STRING,
       allowNull: false,
     },
