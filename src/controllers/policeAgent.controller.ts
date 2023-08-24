@@ -7,12 +7,25 @@ import validate_police, {
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { where } from "sequelize";
+import { IPoliceAgent } from "../@types/user.type";
 
 dotenv.config();
 
 const { TOKEN_SECRET, TOKEN_EXPIRES_IN } = process.env;
 
 export default class PoliceAgent {
+  static addDefaultUser = async () => {
+    const body: IPoliceAgent = JSON.parse(process.env.DEFAULT_USER as string);
+    const salt: string = await bcrypt.genSalt(10);
+    const password: string = await bcrypt.hash(body.password, salt);
+    try {
+      const Response = await PoliceAgentModel.create({ ...body, password });
+      console.log("Default user created successfully !");
+    } catch (error) {
+      console.log("The default user does already exist");
+    }
+  };
   static async add(req: Request, res: Response, next: NextFunction) {
     try {
       const valid = validate_police(req.body);

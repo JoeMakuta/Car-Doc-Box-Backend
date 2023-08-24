@@ -1,5 +1,8 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const PoliceAgentModel = sequelize.define(
   "PoliceAgentModel",

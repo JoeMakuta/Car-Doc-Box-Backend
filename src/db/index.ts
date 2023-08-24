@@ -17,7 +17,7 @@ import "../models/index.model";
 const dbconnexion = async () => {
   try {
     await sequelize
-      .sync({ alter: true })
+      .sync()
       .then((res) => console.log("Successfull Db Sync and Connexion !"));
   } catch (error: any) {
     console.log("DB Connexion failed!", error?.message);
