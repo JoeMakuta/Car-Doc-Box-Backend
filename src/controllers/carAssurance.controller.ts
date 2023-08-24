@@ -34,6 +34,7 @@ export default class CarAssurance {
   static async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const response = await CarAssuranceModel.findAll();
+      console.log("The response : ", response[0]);
       if (response) {
         res.status(200).json(<IServerResponse>{
           status: 200,

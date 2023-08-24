@@ -17,7 +17,6 @@ export default class App {
   public async init() {
     await dbconnexion();
     this.middlewares();
-    await PoliceAgent.addDefaultUser();
   }
 
   private middlewares() {

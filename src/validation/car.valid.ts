@@ -6,6 +6,7 @@ export const validate_car = (data: ICarAssurance) => {
     chassisNumber: Joi.string().required().min(4),
     carBrand: Joi.string().required().min(3),
     photos: Joi.array().items(Joi.string()),
+    CarAssuranceModelId: Joi.string(),
   }).validate(data);
 };
 

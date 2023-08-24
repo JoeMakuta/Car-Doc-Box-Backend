@@ -37,12 +37,12 @@ const CarModel = sequelize.define(
   }
 );
 
-CarPlateModel.hasOne(CarModel);
-CarAssuranceModel.hasOne(CarModel);
-CarPlateModel.hasOne(CarModel);
-CarStickerModel.hasOne(CarModel);
-CarPinkCardModel.hasOne(CarModel);
-CarTechControlModel.hasOne(CarModel);
-CarTypeModel.hasMany(CarModel);
+CarPlateModel.hasOne(CarModel, { onDelete: "CASCADE" });
+CarAssuranceModel.hasOne(CarModel, { onDelete: "CASCADE" });
+CarPlateModel.hasOne(CarModel, { onDelete: "CASCADE" });
+CarStickerModel.hasOne(CarModel, { onDelete: "CASCADE" });
+CarPinkCardModel.hasOne(CarModel, { onDelete: "CASCADE" });
+CarTechControlModel.hasOne(CarModel, { onDelete: "CASCADE" });
+CarTypeModel.hasMany(CarModel, { onDelete: "CASCADE" });
 
 export default CarModel;

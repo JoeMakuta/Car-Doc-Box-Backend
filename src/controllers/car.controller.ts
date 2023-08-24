@@ -4,6 +4,7 @@ import validate_carassurance from "../validation/carAssurance.valid";
 import CarAssuranceModel from "../models/carAssurance.model";
 import CarModel from "../models/car.model";
 import validate_car from "../validation/car.valid";
+import { ICarAssurance } from "../@types/carAssurance.type";
 
 export default class Car {
   static async add(req: Request, res: Response, next: NextFunction) {
@@ -12,9 +13,13 @@ export default class Car {
       if (valid.error) {
         throw new httpError.Forbidden(valid.error?.details[0].message);
       } else {
+        const carAssuranceResponse = await CarAssuranceModel.findByPk(
+          req.body.CarAssuranceModelId
+        );
         const response = await CarModel.create({
           ...req.body,
         });
+        // await carAssuranceResponse?.setCarModel(response);
         if (response) {
           res.status(200).json(<IServerResponse>{
             status: 200,

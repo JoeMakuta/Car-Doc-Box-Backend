@@ -13,12 +13,19 @@ export const sequelize: Sequelize = new Sequelize(DB_URI as string, {
 });
 
 import "../models/index.model";
+import PoliceAgentModel from "../models/policeAgent.model";
+import PoliceAgent from "../controllers/policeAgent.controller";
 
 const dbconnexion = async () => {
   try {
-    await sequelize
-      .sync()
-      .then((res) => console.log("Successfull Db Sync and Connexion !"));
+    const res = await sequelize.sync();
+    const users = await PoliceAgentModel.findAll();
+    if (users[0]) {
+      console.log("The default user already exists !");
+    } else {
+      await PoliceAgent.addDefaultUser();
+    }
+    console.log("Successfull Db Sync and Connexion !");
   } catch (error: any) {
     console.log("DB Connexion failed!", error?.message);
   }
