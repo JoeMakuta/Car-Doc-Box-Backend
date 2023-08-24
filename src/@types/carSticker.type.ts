@@ -1,5 +1,5 @@
-export interface ICarAssurance {
-  assurance: string;
+export interface ICarSticker {
+  sticker: string;
   deliveryDate: Date;
   expirationDate: Date;
   photos: string[];
