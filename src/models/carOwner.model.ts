@@ -62,7 +62,7 @@ const CarOwnerModel = sequelize.define(
     role: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 2,
+      defaultValue: 3,
     },
 
     nationalId: {
@@ -77,6 +77,5 @@ const CarOwnerModel = sequelize.define(
 );
 
 CarOwnerModel.hasMany(CarModel);
-
 
 export default CarOwnerModel;
