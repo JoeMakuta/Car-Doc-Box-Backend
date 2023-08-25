@@ -18,7 +18,8 @@ import PoliceAgent from "../controllers/policeAgent.controller";
 
 const dbconnexion = async () => {
   try {
-    const res = await sequelize.sync();
+    // await sequelize.sync({ force: true });
+    await sequelize.sync();
     const users = await PoliceAgentModel.findAll();
     if (users[0]) {
       console.log("The default user already exists !");

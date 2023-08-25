@@ -5,29 +5,86 @@ import CarAssuranceModel from "../models/carAssurance.model";
 import CarModel from "../models/car.model";
 import validate_car from "../validation/car.valid";
 import { ICarAssurance } from "../@types/carAssurance.type";
+import CarStickerModel from "../models/carSticker.model";
+import CarPlateModel from "../models/carPlate.model";
+import CarPinkCardModel from "../models/carPinkCard.model";
+import CarTechControlModel from "../models/carTechControl.model";
+import CarTypeModel from "../models/carType.model";
+import CarOwnerModel from "../models/carOwner.model";
+import { IUserRequest } from "../@types/user.type";
+import PoliceAgentModel from "../models/policeAgent.model";
 
 export default class Car {
-  static async add(req: Request, res: Response, next: NextFunction) {
+  static async add(req: IUserRequest, res: Response, next: NextFunction) {
+    const { chassisNumber, carBrand, photos } = req.body;
+    console.log("The user : ", req.auth.id);
     try {
       const valid = validate_car(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error?.details[0].message);
       } else {
         const carAssuranceResponse = await CarAssuranceModel.findByPk(
-          req.body.CarAssuranceModelId
+          req.body.CarAssuranceId
         );
-        const response = await CarModel.create({
-          ...req.body,
+        if (!carAssuranceResponse)
+          throw new httpError.NotFound("Car Assurance not found !");
+
+        const carStickerResponse = await CarStickerModel.findByPk(
+          req.body.CarStickerId
+        );
+        if (!carStickerResponse)
+          throw new httpError.NotFound("Car Sticker not found !");
+
+        const carPlateResponse = await CarPlateModel.findByPk(
+          req.body.CarPlateId
+        );
+        if (!carPlateResponse)
+          throw new httpError.NotFound("Car Plate not found !");
+
+        const carPinkCardResponse = await CarPinkCardModel.findByPk(
+          req.body.CarPinkCardId
+        );
+        if (!carPinkCardResponse)
+          throw new httpError.NotFound("Pink card not found !");
+
+        const carTechControlResponse = await CarTechControlModel.findByPk(
+          req.body.CarTechControlId
+        );
+        if (!carTechControlResponse)
+          throw new httpError.NotFound("Tech control not found !");
+
+        const carTypeResponse = await CarTypeModel.findByPk(req.body.CarTypeId);
+        if (!carTypeResponse)
+          throw new httpError.NotFound("Car Type not found !");
+
+        const carOwnerResponse = await CarOwnerModel.findByPk(
+          req.body.CarOwnerId
+        );
+        if (!carOwnerResponse)
+          throw new httpError.NotFound("Car Owner not found !");
+
+        const response = await req.auth.createCarModel({
+          chassisNumber,
+          carBrand,
+          photos,
         });
-        // await carAssuranceResponse?.setCarModel(response);
+
         if (response) {
+          await carAssuranceResponse?.setCarModel(response);
+          await carStickerResponse?.setCarModel(response);
+          await carPlateResponse?.setCarModel(response);
+          await carTechControlResponse?.setCarModel(response);
+          await carOwnerResponse?.setCarModel(response);
+          await carPinkCardResponse?.setCarModel(response);
+          await carTypeResponse?.setCarModel(response);
+
           res.status(200).json(<IServerResponse>{
             status: 200,
             data: response,
             message: "Car Created successfully !",
             error: null,
           });
-        }
+        } else throw new httpError.NotFound("Admin not found !");
       }
     } catch (error) {
       next(error);

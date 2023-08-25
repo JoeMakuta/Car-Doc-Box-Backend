@@ -76,6 +76,10 @@ const CarOwnerModel = sequelize.define(
   }
 );
 
-CarOwnerModel.hasMany(CarModel);
+CarOwnerModel.hasMany(CarModel, {
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+  foreignKey: "CarOwnerId",
+});
 
 export default CarOwnerModel;

@@ -1,6 +1,8 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db";
 import * as dotenv from "dotenv";
+import CarModel from "./car.model";
+import CarOwnerModel from "./carOwner.model";
 
 dotenv.config();
 
@@ -75,5 +77,15 @@ const PoliceAgentModel = sequelize.define(
     tableName: "PoliceAgent",
   }
 );
+
+PoliceAgentModel.hasMany(CarModel, {
+  onDelete: "CASCADE",
+  foreignKey: "adminId",
+});
+
+PoliceAgentModel.hasMany(CarOwnerModel, {
+  onDelete: "CASCADE",
+  foreignKey: "adminId",
+});
 
 export default PoliceAgentModel;

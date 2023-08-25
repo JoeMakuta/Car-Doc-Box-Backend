@@ -16,7 +16,8 @@ export default class App {
   server: http.Server = http.createServer(this.app);
   public async init() {
     await dbconnexion();
-    this.middlewares();
+    await this.middlewares();
+    return Promise.resolve();
   }
 
   private middlewares() {
