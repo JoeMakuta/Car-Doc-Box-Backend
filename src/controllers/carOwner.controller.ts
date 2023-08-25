@@ -1,30 +1,63 @@
 import { Request, Response, NextFunction } from "express";
 import * as httpError from "http-errors";
-import PoliceAgentModel from "../models/policeAgent.model";
-import validate_police, {
-  validate_login,
-} from "../validation/policeAgent.valid";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+
 import dotenv from "dotenv";
 import validate_carowner from "../validation/carOwner.valid";
 import CarOwnerModel from "../models/carOwner.model";
+import DriverLicenseModel from "../models/driverLicense.model";
+import { IUserRequest } from "../@types/user.type";
 
 dotenv.config();
 
 const { TOKEN_SECRET, TOKEN_EXPIRES_IN } = process.env;
 
 export default class CarOwner {
-  static async add(req: Request, res: Response, next: NextFunction) {
+  static async add(req: IUserRequest, res: Response, next: NextFunction) {
+    const {
+      firstName,
+      lastName,
+      surName,
+      gender,
+      email,
+      phone,
+      username,
+      password,
+      birthDate,
+      photos,
+      address,
+      nationalId,
+      role,
+    } = req.body;
     try {
       const valid = validate_carowner(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
-        const response = await CarOwnerModel.create({
-          ...req.body,
+        const driverLicenseResponse = await DriverLicenseModel.findByPk(
+          req.body.DriverLicenseId
+        );
+        if (!driverLicenseResponse)
+          throw new httpError.NotFound("The driver license can't be found !");
+
+        const response = await req.auth?.createCarOwnerModel({
+          firstName,
+          lastName,
+          surName,
+          gender,
+          email,
+          phone,
+          username,
+          password,
+          birthDate,
+          photos,
+          address,
+          nationalId,
+          role,
         });
+
         if (response) {
+          const isOk = await driverLicenseResponse.setCarOwnerModel(response);
+
           res.status(200).json(<IServerResponse>{
             status: 200,
             data: response,

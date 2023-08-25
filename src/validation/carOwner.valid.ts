@@ -17,6 +17,7 @@ const validate_carowner = (data: ICarOwner) => {
     address: Joi.array().items(Joi.string()),
     role: Joi.number().valid(1, 2, 3),
     nationalId: Joi.string().required(),
+    DriverLicenseId: Joi.string().required(),
   }).validate(data);
 };
 
