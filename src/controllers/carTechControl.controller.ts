@@ -2,22 +2,24 @@ import { Request, Response, NextFunction } from "express";
 import * as httpError from "http-errors";
 import validate_carpinkcard from "../validation/carPinkCard.valid";
 import CarPinkCardModel from "../models/carPinkCard.model";
+import validate_cartechcontrol from "../validation/carTechControl.valid";
+import CarTechControlModel from "../models/carTechControl.model";
 
-export default class CarPinkCard {
+export default class CarTechControl {
   static async add(req: Request, res: Response, next: NextFunction) {
     try {
-      const valid = validate_carpinkcard(req.body);
+      const valid = validate_cartechcontrol(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
-        const response = await CarPinkCardModel.create({
+        const response = await CarTechControlModel.create({
           ...req.body,
         });
         if (response) {
           res.status(200).json(<IServerResponse>{
             status: 200,
             data: response,
-            message: "Pink Card Created successfully !",
+            message: "Car tech control Created successfully !",
             error: null,
           });
         }
@@ -29,12 +31,11 @@ export default class CarPinkCard {
 
   static async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await CarPinkCardModel.findAll();
-      console.log("The response : ", response[0]);
+      const response = await CarTechControlModel.findAll();
       if (response) {
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "All Car Pink cards",
+          message: "All Car Tech control",
           data: response,
           error: null,
         });
@@ -46,11 +47,11 @@ export default class CarPinkCard {
 
   static async getOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await CarPinkCardModel.findByPk(req.params.id);
+      const response = await CarTechControlModel.findByPk(req.params.id);
       if (response) {
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "The Car Pink Card",
+          message: "The Car Tech Control",
           data: response,
           error: null,
         });
@@ -64,16 +65,16 @@ export default class CarPinkCard {
 
   static async updateOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const valid = validate_carpinkcard(req.body);
+      const valid = validate_cartechcontrol(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
-        const response = await CarPinkCardModel.findByPk(req.params.id);
+        const response = await CarTechControlModel.findByPk(req.params.id);
         if (response) {
           const response1 = await response.update({ ...response, ...req.body });
           res.status(200).json(<IServerResponse>{
             status: 200,
-            message: "Pink Card updated !",
+            message: "Tech Control updated !",
             data: response1,
             error: null,
           });
@@ -88,12 +89,12 @@ export default class CarPinkCard {
 
   static async deleteOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await CarPinkCardModel.findByPk(req.params.id);
+      const response = await CarTechControlModel.findByPk(req.params.id);
       if (response) {
         await response.destroy();
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "Pink Card Deleted !",
+          message: "Tech Control Deleted !",
           data: {},
           error: null,
         });

@@ -10,6 +10,7 @@ import carRoute from "./car.route";
 import carOwnerRoute from "./carowner.route";
 import carPinkCardRoute from "./carpinkcard.route";
 import carStickerRoute from "./carsticker.route";
+import carTechControlRoute from "./cartechcontrol.route";
 
 const homeRoute: express.Router = Router();
 
@@ -21,6 +22,7 @@ homeRoute.use("/car", verifyToken, carRoute);
 homeRoute.use("/carowner", verifyToken, carOwnerRoute);
 homeRoute.use("/pinkcard", verifyToken, carPinkCardRoute);
 homeRoute.use("/sticker", verifyToken, carStickerRoute);
+homeRoute.use("/techcontrol", verifyToken, carTechControlRoute);
 homeRoute.use("/admin", adminRoute);
 
 export default homeRoute;
