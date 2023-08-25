@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as jwt from "jsonwebtoken";
 
-export interface IPoliceAgent {
+export interface ICarOwner {
   _id: string;
   firstName: string;
   lastName: string;
@@ -15,9 +15,6 @@ export interface IPoliceAgent {
   photos?: string[];
   address: string[];
   role: 1 | 2 | 3;
-  policeLicense: string;
-}
-
-export interface IUserRequest extends express.Request {
-  auth: jwt.JwtPayload | string;
+  driverLicense: string;
+  nationalId: string;
 }

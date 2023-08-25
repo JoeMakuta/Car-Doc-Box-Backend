@@ -6,6 +6,7 @@ import CarTypeModel from "./carType.model";
 import CarStickerModel from "./carSticker.model";
 import CarPinkCardModel from "./carPinkCard.model";
 import CarTechControlModel from "./carTechControl.model";
+import PoliceAgentModel from "./policeAgent.model";
 
 const CarModel = sequelize.define(
   "CarModel",
@@ -37,12 +38,31 @@ const CarModel = sequelize.define(
   }
 );
 
-CarPlateModel.hasOne(CarModel);
-CarAssuranceModel.hasOne(CarModel);
-CarPlateModel.hasOne(CarModel);
-CarStickerModel.hasOne(CarModel);
-CarPinkCardModel.hasOne(CarModel);
-CarTechControlModel.hasOne(CarModel);
-CarTypeModel.hasMany(CarModel);
+CarAssuranceModel.hasOne(CarModel, {
+  onDelete: "CASCADE",
+  foreignKey: "CarAssuranceId",
+});
+
+CarPlateModel.hasOne(CarModel, {
+  onDelete: "CASCADE",
+  foreignKey: "CarPlateId",
+});
+
+CarStickerModel.hasOne(CarModel, {
+  onDelete: "CASCADE",
+  foreignKey: "CarStickerId",
+});
+CarPinkCardModel.hasOne(CarModel, {
+  onDelete: "CASCADE",
+  foreignKey: "CarPinkCardId",
+});
+CarTechControlModel.hasOne(CarModel, {
+  onDelete: "CASCADE",
+  foreignKey: "CarTechControlId",
+});
+CarTypeModel.hasMany(CarModel, {
+  onDelete: "CASCADE",
+  foreignKey: "CarTypeId",
+});
 
 export default CarModel;

@@ -7,6 +7,7 @@ import NotFoundError from "./middlewares/notFound";
 import dbconnexion from "./db";
 import adminRoute from "./routes/admin.route";
 import apiRoute from "./routes/api.route";
+import PoliceAgent from "./controllers/policeAgent.controller";
 
 dotenv.config();
 
@@ -15,7 +16,8 @@ export default class App {
   server: http.Server = http.createServer(this.app);
   public async init() {
     await dbconnexion();
-    this.middlewares();
+    await this.middlewares();
+    return Promise.resolve();
   }
 
   private middlewares() {

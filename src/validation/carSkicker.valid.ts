@@ -1,13 +1,13 @@
 import Joi, * as joi from "joi";
 import { ICarAssurance } from "../@types/carAssurance.type";
 
-export const validate_carassurance = (data: ICarAssurance) => {
+export const validate_carsticker = (data: ICarAssurance) => {
   return Joi.object({
-    assurance: Joi.string().required().min(4),
+    sticker: Joi.string().required().min(4),
     deliveryDate: Joi.date().required(),
     expirationDate: Joi.date().required(),
     photos: Joi.array().required(),
   }).validate(data);
 };
 
-export default validate_carassurance;
+export default validate_carsticker;

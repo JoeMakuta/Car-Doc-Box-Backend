@@ -1,27 +1,27 @@
 import { Request, Response, NextFunction } from "express";
 import * as httpError from "http-errors";
-import validate_carplate from "../validation/carPlate.valid";
-import CarPlateModel from "../models/carPlate.model";
-import validate_cartype from "../validation/carType.valid";
-import CarTypeModel from "../models/carType.model";
-import validate_carassurance from "../validation/carAssurance.valid";
-import CarAssuranceModel from "../models/carAssurance.model";
+import validate_carpinkcard from "../validation/carPinkCard.valid";
+import CarPinkCardModel from "../models/carPinkCard.model";
+import validate_cartechcontrol from "../validation/carTechControl.valid";
+import CarTechControlModel from "../models/carTechControl.model";
+import validate_driverlicense from "../validation/driverLicense.valid";
+import DriverLicenseModel from "../models/driverLicense.model";
 
-export default class CarAssurance {
+export default class DriverLicense {
   static async add(req: Request, res: Response, next: NextFunction) {
     try {
-      const valid = validate_carassurance(req.body);
+      const valid = validate_driverlicense(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
-        const response = await CarAssuranceModel.create({
+        const response = await DriverLicenseModel.create({
           ...req.body,
         });
         if (response) {
           res.status(200).json(<IServerResponse>{
             status: 200,
             data: response,
-            message: "Assurance Created successfully !",
+            message: "Driver License created successfully !",
             error: null,
           });
         }
@@ -33,12 +33,11 @@ export default class CarAssurance {
 
   static async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await CarAssuranceModel.findAll();
-      console.log("The response : ", response[0]);
+      const response = await DriverLicenseModel.findAll();
       if (response) {
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "All Car Assurances",
+          message: "All Driver Licenses",
           data: response,
           error: null,
         });
@@ -50,11 +49,11 @@ export default class CarAssurance {
 
   static async getOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await CarAssuranceModel.findByPk(req.params.id);
+      const response = await DriverLicenseModel.findByPk(req.params.id);
       if (response) {
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "The Car Assurance",
+          message: "The Driver License",
           data: response,
           error: null,
         });
@@ -68,16 +67,16 @@ export default class CarAssurance {
 
   static async updateOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const valid = validate_carassurance(req.body);
+      const valid = validate_driverlicense(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
-        const response = await CarAssuranceModel.findByPk(req.params.id);
+        const response = await DriverLicenseModel.findByPk(req.params.id);
         if (response) {
           const response1 = await response.update({ ...response, ...req.body });
           res.status(200).json(<IServerResponse>{
             status: 200,
-            message: "Car Assurance updated !",
+            message: "Driver License updated !",
             data: response1,
             error: null,
           });
@@ -92,12 +91,12 @@ export default class CarAssurance {
 
   static async deleteOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await CarAssuranceModel.findByPk(req.params.id);
+      const response = await DriverLicenseModel.findByPk(req.params.id);
       if (response) {
         await response.destroy();
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "Car Assurance Deleted !",
+          message: "Driver license Deleted !",
           data: {},
           error: null,
         });

@@ -1,27 +1,67 @@
 import { Request, Response, NextFunction } from "express";
 import * as httpError from "http-errors";
-import validate_carplate from "../validation/carPlate.valid";
-import CarPlateModel from "../models/carPlate.model";
-import validate_cartype from "../validation/carType.valid";
-import CarTypeModel from "../models/carType.model";
-import validate_carassurance from "../validation/carAssurance.valid";
-import CarAssuranceModel from "../models/carAssurance.model";
 
-export default class CarAssurance {
-  static async add(req: Request, res: Response, next: NextFunction) {
+import dotenv from "dotenv";
+import validate_carowner from "../validation/carOwner.valid";
+import CarOwnerModel from "../models/carOwner.model";
+import DriverLicenseModel from "../models/driverLicense.model";
+import { IUserRequest } from "../@types/user.type";
+
+dotenv.config();
+
+const { TOKEN_SECRET, TOKEN_EXPIRES_IN } = process.env;
+
+export default class CarOwner {
+  static async add(req: IUserRequest, res: Response, next: NextFunction) {
+    const {
+      firstName,
+      lastName,
+      surName,
+      gender,
+      email,
+      phone,
+      username,
+      password,
+      birthDate,
+      photos,
+      address,
+      nationalId,
+      role,
+    } = req.body;
     try {
-      const valid = validate_carassurance(req.body);
+      const valid = validate_carowner(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
-        const response = await CarAssuranceModel.create({
-          ...req.body,
+        const driverLicenseResponse = await DriverLicenseModel.findByPk(
+          req.body.DriverLicenseId
+        );
+        if (!driverLicenseResponse)
+          throw new httpError.NotFound("The driver license can't be found !");
+
+        const response = await req.auth?.createCarOwnerModel({
+          firstName,
+          lastName,
+          surName,
+          gender,
+          email,
+          phone,
+          username,
+          password,
+          birthDate,
+          photos,
+          address,
+          nationalId,
+          role,
         });
+
         if (response) {
+          const isOk = await driverLicenseResponse.setCarOwnerModel(response);
+
           res.status(200).json(<IServerResponse>{
             status: 200,
             data: response,
-            message: "Assurance Created successfully !",
+            message: "Car Owner created successfully",
             error: null,
           });
         }
@@ -33,12 +73,11 @@ export default class CarAssurance {
 
   static async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await CarAssuranceModel.findAll();
-      console.log("The response : ", response[0]);
+      const response = await CarOwnerModel.findAll();
       if (response) {
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "All Car Assurances",
+          message: "All Car Owners",
           data: response,
           error: null,
         });
@@ -50,11 +89,11 @@ export default class CarAssurance {
 
   static async getOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await CarAssuranceModel.findByPk(req.params.id);
+      const response = await CarOwnerModel.findByPk(req.params.id);
       if (response) {
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "The Car Assurance",
+          message: "The Car owner",
           data: response,
           error: null,
         });
@@ -68,16 +107,16 @@ export default class CarAssurance {
 
   static async updateOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const valid = validate_carassurance(req.body);
+      const valid = validate_carowner(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
-        const response = await CarAssuranceModel.findByPk(req.params.id);
+        const response = await CarOwnerModel.findByPk(req.params.id);
         if (response) {
           const response1 = await response.update({ ...response, ...req.body });
           res.status(200).json(<IServerResponse>{
             status: 200,
-            message: "Car Assurance updated !",
+            message: "Car Owner updated !",
             data: response1,
             error: null,
           });
@@ -92,12 +131,12 @@ export default class CarAssurance {
 
   static async deleteOne(req: Request, res: Response, next: NextFunction) {
     try {
-      const response = await CarAssuranceModel.findByPk(req.params.id);
+      const response = await CarOwnerModel.findByPk(req.params.id);
       if (response) {
         await response.destroy();
         res.status(200).json(<IServerResponse>{
           status: 200,
-          message: "Car Assurance Deleted !",
+          message: "Car Owner Deleted !",
           data: {},
           error: null,
         });

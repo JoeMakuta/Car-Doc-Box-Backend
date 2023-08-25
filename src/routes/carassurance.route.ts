@@ -7,7 +7,7 @@ const carAssuranceRoute: express.Router = Router();
 carAssuranceRoute.get("/:id", verifyToken, CarAssurance.getOne);
 carAssuranceRoute.put("/:id", verifyToken, CarAssurance.updateOne);
 carAssuranceRoute.delete("/:id", verifyToken, CarAssurance.deleteOne);
-carAssuranceRoute.post("/new", CarAssurance.add);
-carAssuranceRoute.get("/", CarAssurance.getAll);
+carAssuranceRoute.post("/new", verifyToken, CarAssurance.add);
+carAssuranceRoute.get("/", verifyToken, CarAssurance.getAll);
 
 export default carAssuranceRoute;
