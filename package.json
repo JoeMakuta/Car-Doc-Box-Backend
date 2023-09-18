@@ -22,7 +22,8 @@
     "jsonwebtoken": "^9.0.1",
     "pg": "^8.11.2",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.32.1"
+    "sequelize": "^6.32.1",
+    "tsc": "^2.0.4"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
