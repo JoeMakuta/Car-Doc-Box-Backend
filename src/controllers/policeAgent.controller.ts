@@ -167,10 +167,10 @@ export default class PoliceAgent {
             error: null,
           });
         } else {
-          throw new httpError.Unauthorized();
+          throw new httpError.Unauthorized("Incorrect email or password !");
         }
       } else {
-        throw new httpError.NotFound();
+        throw new httpError.NotFound("Incorrect email or password !");
       }
     } catch (error) {
       next(error);
