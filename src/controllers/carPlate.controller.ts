@@ -9,13 +9,14 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import validate_carplate from "../validation/carPlate.valid";
 import CarPlateModel from "../models/carPlate.model";
+import { IUserRequest } from "../@types/user.type";
 
 dotenv.config();
 
 const { TOKEN_SECRET, TOKEN_EXPIRES_IN } = process.env;
 
 export default class CarPlate {
-  static async add(req: Request, res: Response, next: NextFunction) {
+  static async add(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_carplate(req.body);
       if (valid.error) {
@@ -38,7 +39,7 @@ export default class CarPlate {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  static async getAll(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarPlateModel.findAll();
       if (response) {
@@ -54,7 +55,7 @@ export default class CarPlate {
     }
   }
 
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  static async getOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarPlateModel.findByPk(req.params.id);
       if (response) {
@@ -72,7 +73,7 @@ export default class CarPlate {
     }
   }
 
-  static async updateOne(req: Request, res: Response, next: NextFunction) {
+  static async updateOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_carplate(req.body);
       if (valid.error) {
@@ -96,7 +97,7 @@ export default class CarPlate {
     }
   }
 
-  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+  static async deleteOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarPlateModel.findByPk(req.params.id);
       if (response) {

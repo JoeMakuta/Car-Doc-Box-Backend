@@ -19,5 +19,5 @@ export interface IPoliceAgent {
 }
 
 export interface IUserRequest extends express.Request {
-  auth: jwt.JwtPayload | string;
+  auth?: jwt.JwtPayload | string | any;
 }

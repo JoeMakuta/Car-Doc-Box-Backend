@@ -7,19 +7,19 @@ import { Model } from "sequelize";
 import { IPayLoad } from "../@types/payLoad.type";
 
 const verifyToken = async (
-  req: Request,
+  req: IUserRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   const { TOKEN_SECRET } = process.env;
   try {
     const token: string = req.headers.authorization?.split(" ")[1] as string;
-    const payLoad: string | jwt.JwtPayload = jwt.verify(
+    const { id, email }: IPayLoad = jwt.verify(
       token,
       TOKEN_SECRET as string
-    );
+    ) as IPayLoad;
 
-    const user = await PoliceAgentModel.findByPk(payLoad!.id);
+    const user = await PoliceAgentModel.findByPk(id);
     if (user) {
       req.auth = user;
       next();

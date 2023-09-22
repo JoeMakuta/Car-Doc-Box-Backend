@@ -7,7 +7,7 @@ import NotFoundError from "./middlewares/notFound";
 import dbconnexion from "./db";
 import adminRoute from "./routes/admin.route";
 import apiRoute from "./routes/api.route";
-import cors from "cors";
+// import cors from "cors";
 
 dotenv.config();
 
@@ -22,7 +22,7 @@ export default class App {
 
   private middlewares() {
     this.app.use(express.json());
-    this.app.use(cors());
+    // this.app.use(cors());
     this.app.use("/", apiRoute);
     this.app.use("/api", homeRoute);
     this.app.use(NotFoundError.errorHandler);

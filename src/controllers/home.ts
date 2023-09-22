@@ -1,6 +1,7 @@
 import express from "express";
 import { Request, Response, NextFunction } from "express";
 import httpError, { HttpError } from "http-errors";
+import { IUserRequest } from "../@types/user.type";
 
 export const Home = (req: Request, res: Response, next: NextFunction) => {
   res.json(<IServerResponse>{
@@ -14,7 +15,7 @@ export const Home = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const HomeApi = (
-  req: express.Request,
+  req: Request,
   res: express.Response,
   next: express.NextFunction
 ) => {

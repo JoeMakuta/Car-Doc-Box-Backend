@@ -7,7 +7,7 @@ import validate_police, {
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { IPoliceAgent } from "../@types/user.type";
+import { IPoliceAgent, IUserRequest } from "../@types/user.type";
 
 dotenv.config();
 
@@ -57,7 +57,7 @@ export default class PoliceAgent {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  static async getAll(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await PoliceAgentModel.findAll();
       if (response) {
@@ -73,7 +73,7 @@ export default class PoliceAgent {
     }
   }
 
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  static async getOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await PoliceAgentModel.findByPk(req.params.id);
       if (response) {
@@ -91,7 +91,7 @@ export default class PoliceAgent {
     }
   }
 
-  static async updateOne(req: Request, res: Response, next: NextFunction) {
+  static async updateOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_police(req.body);
       if (valid.error) {
@@ -115,7 +115,7 @@ export default class PoliceAgent {
     }
   }
 
-  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+  static async deleteOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await PoliceAgentModel.findByPk(req.params.id);
       if (response) {
