@@ -7,7 +7,7 @@ import CarStickerModel from "../models/carSticker.model";
 import { IUserRequest } from "../@types/user.type";
 
 export default class CarSticker {
-  static async add(req: Request, res: Response, next: NextFunction) {
+  static async add(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_carsticker(req.body);
       if (valid.error) {
@@ -30,10 +30,9 @@ export default class CarSticker {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  static async getAll(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarStickerModel.findAll();
-      console.log("The response : ", response[0]);
       if (response) {
         res.status(200).json(<IServerResponse>{
           status: 200,
@@ -47,7 +46,7 @@ export default class CarSticker {
     }
   }
 
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  static async getOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarStickerModel.findByPk(req.params.id);
       if (response) {
@@ -65,7 +64,7 @@ export default class CarSticker {
     }
   }
 
-  static async updateOne(req: Request, res: Response, next: NextFunction) {
+  static async updateOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_carsticker(req.body);
       if (valid.error) {
@@ -89,7 +88,7 @@ export default class CarSticker {
     }
   }
 
-  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+  static async deleteOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarStickerModel.findByPk(req.params.id);
       if (response) {

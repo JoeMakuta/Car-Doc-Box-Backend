@@ -6,9 +6,10 @@ import validate_cartechcontrol from "../validation/carTechControl.valid";
 import CarTechControlModel from "../models/carTechControl.model";
 import validate_driverlicense from "../validation/driverLicense.valid";
 import DriverLicenseModel from "../models/driverLicense.model";
+import { IUserRequest } from "../@types/user.type";
 
 export default class DriverLicense {
-  static async add(req: Request, res: Response, next: NextFunction) {
+  static async add(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_driverlicense(req.body);
       if (valid.error) {
@@ -31,7 +32,7 @@ export default class DriverLicense {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  static async getAll(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await DriverLicenseModel.findAll();
       if (response) {
@@ -47,7 +48,7 @@ export default class DriverLicense {
     }
   }
 
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  static async getOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await DriverLicenseModel.findByPk(req.params.id);
       if (response) {
@@ -65,7 +66,7 @@ export default class DriverLicense {
     }
   }
 
-  static async updateOne(req: Request, res: Response, next: NextFunction) {
+  static async updateOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_driverlicense(req.body);
       if (valid.error) {
@@ -89,7 +90,7 @@ export default class DriverLicense {
     }
   }
 
-  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+  static async deleteOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await DriverLicenseModel.findByPk(req.params.id);
       if (response) {

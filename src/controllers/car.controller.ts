@@ -17,47 +17,46 @@ import PoliceAgentModel from "../models/policeAgent.model";
 export default class Car {
   static async add(req: IUserRequest, res: Response, next: NextFunction) {
     const { chassisNumber, carBrand, photos } = req.body;
-    console.log("The user : ", req.auth.id);
     try {
       const valid = validate_car(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error?.details[0].message);
       } else {
-        const carAssuranceResponse = await CarAssuranceModel.findByPk(
+        const carAssuranceResponse: any = await CarAssuranceModel.findByPk(
           req.body.CarAssuranceId
         );
         if (!carAssuranceResponse)
           throw new httpError.NotFound("Car Assurance not found !");
 
-        const carStickerResponse = await CarStickerModel.findByPk(
+        const carStickerResponse : any = await CarStickerModel.findByPk(
           req.body.CarStickerId
         );
         if (!carStickerResponse)
           throw new httpError.NotFound("Car Sticker not found !");
 
-        const carPlateResponse = await CarPlateModel.findByPk(
+        const carPlateResponse : any = await CarPlateModel.findByPk(
           req.body.CarPlateId
         );
         if (!carPlateResponse)
           throw new httpError.NotFound("Car Plate not found !");
 
-        const carPinkCardResponse = await CarPinkCardModel.findByPk(
+        const carPinkCardResponse : any = await CarPinkCardModel.findByPk(
           req.body.CarPinkCardId
         );
         if (!carPinkCardResponse)
           throw new httpError.NotFound("Pink card not found !");
 
-        const carTechControlResponse = await CarTechControlModel.findByPk(
+        const carTechControlResponse : any = await CarTechControlModel.findByPk(
           req.body.CarTechControlId
         );
         if (!carTechControlResponse)
           throw new httpError.NotFound("Tech control not found !");
 
-        const carTypeResponse = await CarTypeModel.findByPk(req.body.CarTypeId);
+        const carTypeResponse : any = await CarTypeModel.findByPk(req.body.CarTypeId);
         if (!carTypeResponse)
           throw new httpError.NotFound("Car Type not found !");
 
-        const carOwnerResponse = await CarOwnerModel.findByPk(
+        const carOwnerResponse : any = await CarOwnerModel.findByPk(
           req.body.CarOwnerId
         );
         if (!carOwnerResponse)
@@ -91,7 +90,7 @@ export default class Car {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  static async getAll(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarModel.findAll();
       if (response) {
@@ -107,7 +106,7 @@ export default class Car {
     }
   }
 
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  static async getOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarModel.findByPk(req.params.id);
       if (response) {
@@ -125,7 +124,7 @@ export default class Car {
     }
   }
 
-  static async updateOne(req: Request, res: Response, next: NextFunction) {
+  static async updateOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_car(req.body);
       if (valid.error) {
@@ -149,7 +148,7 @@ export default class Car {
     }
   }
 
-  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+  static async deleteOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarModel.findByPk(req.params.id);
       if (response) {

@@ -7,7 +7,7 @@ const carPlateRoute: express.Router = Router();
 carPlateRoute.get("/:id", verifyToken, CarPlate.getOne);
 carPlateRoute.put("/:id", verifyToken, CarPlate.updateOne);
 carPlateRoute.delete("/:id", verifyToken, CarPlate.deleteOne);
-carPlateRoute.post("/new", CarPlate.add);
-carPlateRoute.get("/", CarPlate.getAll);
+carPlateRoute.post("/new",verifyToken, CarPlate.add);
+carPlateRoute.get("/",verifyToken, CarPlate.getAll);
 
 export default carPlateRoute;

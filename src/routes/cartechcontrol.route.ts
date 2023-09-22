@@ -9,7 +9,7 @@ const carTechControlRoute: express.Router = Router();
 carTechControlRoute.get("/:id", verifyToken, CarTechControl.getOne);
 carTechControlRoute.put("/:id", verifyToken, CarTechControl.updateOne);
 carTechControlRoute.delete("/:id", verifyToken, CarTechControl.deleteOne);
-carTechControlRoute.post("/new", CarTechControl.add);
-carTechControlRoute.get("/", CarTechControl.getAll);
+carTechControlRoute.post("/new", verifyToken, CarTechControl.add);
+carTechControlRoute.get("/", verifyToken, CarTechControl.getAll);
 
 export default carTechControlRoute;

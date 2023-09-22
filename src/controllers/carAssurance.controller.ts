@@ -6,9 +6,10 @@ import validate_cartype from "../validation/carType.valid";
 import CarTypeModel from "../models/carType.model";
 import validate_carassurance from "../validation/carAssurance.valid";
 import CarAssuranceModel from "../models/carAssurance.model";
+import { IUserRequest } from "../@types/user.type";
 
 export default class CarAssurance {
-  static async add(req: Request, res: Response, next: NextFunction) {
+  static async add(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_carassurance(req.body);
       if (valid.error) {
@@ -31,7 +32,7 @@ export default class CarAssurance {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  static async getAll(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarAssuranceModel.findAll();
       console.log("The response : ", response[0]);
@@ -48,7 +49,7 @@ export default class CarAssurance {
     }
   }
 
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  static async getOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarAssuranceModel.findByPk(req.params.id);
       if (response) {
@@ -66,7 +67,7 @@ export default class CarAssurance {
     }
   }
 
-  static async updateOne(req: Request, res: Response, next: NextFunction) {
+  static async updateOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_carassurance(req.body);
       if (valid.error) {
@@ -90,7 +91,7 @@ export default class CarAssurance {
     }
   }
 
-  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+  static async deleteOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarAssuranceModel.findByPk(req.params.id);
       if (response) {

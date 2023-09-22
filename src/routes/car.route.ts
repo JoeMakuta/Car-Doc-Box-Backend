@@ -5,10 +5,10 @@ import Car from "../controllers/car.controller";
 
 const carRoute: express.Router = Router();
 
-carRoute.get("/:id", Car.getOne);
-carRoute.put("/:id", Car.updateOne);
-carRoute.delete("/:id", Car.deleteOne);
-carRoute.post("/new", Car.add);
-carRoute.get("/", Car.getAll);
+carRoute.get("/:id", verifyToken, Car.getOne);
+carRoute.put("/:id", verifyToken, Car.updateOne);
+carRoute.delete("/:id", verifyToken, Car.deleteOne);
+carRoute.post("/new", verifyToken, Car.add);
+carRoute.get("/", verifyToken, Car.getAll);
 
 export default carRoute;

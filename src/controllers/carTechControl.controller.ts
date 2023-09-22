@@ -4,9 +4,10 @@ import validate_carpinkcard from "../validation/carPinkCard.valid";
 import CarPinkCardModel from "../models/carPinkCard.model";
 import validate_cartechcontrol from "../validation/carTechControl.valid";
 import CarTechControlModel from "../models/carTechControl.model";
+import { IUserRequest } from "../@types/user.type";
 
 export default class CarTechControl {
-  static async add(req: Request, res: Response, next: NextFunction) {
+  static async add(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_cartechcontrol(req.body);
       if (valid.error) {
@@ -29,7 +30,7 @@ export default class CarTechControl {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  static async getAll(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarTechControlModel.findAll();
       if (response) {
@@ -45,7 +46,7 @@ export default class CarTechControl {
     }
   }
 
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  static async getOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarTechControlModel.findByPk(req.params.id);
       if (response) {
@@ -63,7 +64,7 @@ export default class CarTechControl {
     }
   }
 
-  static async updateOne(req: Request, res: Response, next: NextFunction) {
+  static async updateOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_cartechcontrol(req.body);
       if (valid.error) {
@@ -87,7 +88,7 @@ export default class CarTechControl {
     }
   }
 
-  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+  static async deleteOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarTechControlModel.findByPk(req.params.id);
       if (response) {

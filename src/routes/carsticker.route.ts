@@ -8,7 +8,7 @@ const carStickerRoute: express.Router = Router();
 carStickerRoute.get("/:id", verifyToken, CarSticker.getOne);
 carStickerRoute.put("/:id", verifyToken, CarSticker.updateOne);
 carStickerRoute.delete("/:id", verifyToken, CarSticker.deleteOne);
-carStickerRoute.post("/new", CarSticker.add);
-carStickerRoute.get("/", CarSticker.getAll);
+carStickerRoute.post("/new", verifyToken, CarSticker.add);
+carStickerRoute.get("/", verifyToken, CarSticker.getAll);
 
 export default carStickerRoute;

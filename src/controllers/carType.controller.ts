@@ -4,9 +4,10 @@ import validate_carplate from "../validation/carPlate.valid";
 import CarPlateModel from "../models/carPlate.model";
 import validate_cartype from "../validation/carType.valid";
 import CarTypeModel from "../models/carType.model";
+import { IUserRequest } from "../@types/user.type";
 
 export default class CarType {
-  static async add(req: Request, res: Response, next: NextFunction) {
+  static async add(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_cartype(req.body);
       if (valid.error) {
@@ -29,7 +30,7 @@ export default class CarType {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  static async getAll(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarTypeModel.findAll();
       if (response) {
@@ -45,7 +46,7 @@ export default class CarType {
     }
   }
 
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  static async getOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarTypeModel.findByPk(req.params.id);
       if (response) {
@@ -63,7 +64,7 @@ export default class CarType {
     }
   }
 
-  static async updateOne(req: Request, res: Response, next: NextFunction) {
+  static async updateOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_cartype(req.body);
       if (valid.error) {
@@ -87,7 +88,7 @@ export default class CarType {
     }
   }
 
-  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+  static async deleteOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarTypeModel.findByPk(req.params.id);
       if (response) {

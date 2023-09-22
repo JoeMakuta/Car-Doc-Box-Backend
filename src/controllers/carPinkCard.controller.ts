@@ -2,9 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import * as httpError from "http-errors";
 import validate_carpinkcard from "../validation/carPinkCard.valid";
 import CarPinkCardModel from "../models/carPinkCard.model";
+import { IUserRequest } from "../@types/user.type";
 
 export default class CarPinkCard {
-  static async add(req: Request, res: Response, next: NextFunction) {
+  static async add(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_carpinkcard(req.body);
       if (valid.error) {
@@ -27,7 +28,7 @@ export default class CarPinkCard {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  static async getAll(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarPinkCardModel.findAll();
       console.log("The response : ", response[0]);
@@ -44,7 +45,7 @@ export default class CarPinkCard {
     }
   }
 
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  static async getOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarPinkCardModel.findByPk(req.params.id);
       if (response) {
@@ -62,7 +63,7 @@ export default class CarPinkCard {
     }
   }
 
-  static async updateOne(req: Request, res: Response, next: NextFunction) {
+  static async updateOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_carpinkcard(req.body);
       if (valid.error) {
@@ -86,7 +87,7 @@ export default class CarPinkCard {
     }
   }
 
-  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+  static async deleteOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarPinkCardModel.findByPk(req.params.id);
       if (response) {

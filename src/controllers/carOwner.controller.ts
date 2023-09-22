@@ -33,7 +33,7 @@ export default class CarOwner {
       if (valid.error) {
         throw new httpError.Forbidden(valid.error.details[0].message);
       } else {
-        const driverLicenseResponse = await DriverLicenseModel.findByPk(
+        const driverLicenseResponse: any = await DriverLicenseModel.findByPk(
           req.body.DriverLicenseId
         );
         if (!driverLicenseResponse)
@@ -71,7 +71,7 @@ export default class CarOwner {
     }
   }
 
-  static async getAll(req: Request, res: Response, next: NextFunction) {
+  static async getAll(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarOwnerModel.findAll();
       if (response) {
@@ -87,7 +87,7 @@ export default class CarOwner {
     }
   }
 
-  static async getOne(req: Request, res: Response, next: NextFunction) {
+  static async getOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarOwnerModel.findByPk(req.params.id);
       if (response) {
@@ -105,7 +105,7 @@ export default class CarOwner {
     }
   }
 
-  static async updateOne(req: Request, res: Response, next: NextFunction) {
+  static async updateOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const valid = validate_carowner(req.body);
       if (valid.error) {
@@ -129,7 +129,7 @@ export default class CarOwner {
     }
   }
 
-  static async deleteOne(req: Request, res: Response, next: NextFunction) {
+  static async deleteOne(req: IUserRequest, res: Response, next: NextFunction) {
     try {
       const response = await CarOwnerModel.findByPk(req.params.id);
       if (response) {
