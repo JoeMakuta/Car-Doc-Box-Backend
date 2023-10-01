@@ -16,68 +16,80 @@ import PoliceAgentModel from "../models/policeAgent.model";
 
 export default class Car {
   static async add(req: IUserRequest, res: Response, next: NextFunction) {
-    const { chassisNumber, carBrand, photos } = req.body;
+    const {
+      chassisNumber,
+      CarTypeId,
+      carBrand,
+      CarPlateId,
+      CarTechControlId,
+      photos,
+      CarStickerId,
+      CarPinkCardId,
+      CarOwnerId,
+      CarAssuranceId,
+    } = req.body;
     try {
       const valid = validate_car(req.body);
       if (valid.error) {
         throw new httpError.Forbidden(valid.error?.details[0].message);
       } else {
         const carAssuranceResponse: any = await CarAssuranceModel.findByPk(
-          req.body.CarAssuranceId
+          CarAssuranceId
         );
         if (!carAssuranceResponse)
           throw new httpError.NotFound("Car Assurance not found !");
 
         const carStickerResponse: any = await CarStickerModel.findByPk(
-          req.body.CarStickerId
+          CarStickerId
         );
         if (!carStickerResponse)
           throw new httpError.NotFound("Car Sticker not found !");
 
-        const carPlateResponse: any = await CarPlateModel.findByPk(
-          req.body.CarPlateId
-        );
+        const carPlateResponse: any = await CarPlateModel.findByPk(CarPlateId);
         if (!carPlateResponse)
           throw new httpError.NotFound("Car Plate not found !");
 
         const carPinkCardResponse: any = await CarPinkCardModel.findByPk(
-          req.body.CarPinkCardId
+          CarPinkCardId
         );
         if (!carPinkCardResponse)
           throw new httpError.NotFound("Pink card not found !");
 
         const carTechControlResponse: any = await CarTechControlModel.findByPk(
-          req.body.CarTechControlId
+          CarTechControlId
         );
         if (!carTechControlResponse)
           throw new httpError.NotFound("Tech control not found !");
 
-        const carTypeResponse: any = await CarTypeModel.findByPk(
-          req.body.CarTypeId
-        );
+        const carTypeResponse: any = await CarTypeModel.findByPk(CarTypeId);
         if (!carTypeResponse)
           throw new httpError.NotFound("Car Type not found !");
 
-        const carOwnerResponse: any = await CarOwnerModel.findByPk(
-          req.body.CarOwnerId
-        );
+        const carOwnerResponse: any = await CarOwnerModel.findByPk(CarOwnerId);
         if (!carOwnerResponse)
           throw new httpError.NotFound("Car Owner not found !");
 
         const response = await req.auth.createCarModel({
           chassisNumber,
+          CarTypeId,
           carBrand,
+          CarPlateId,
+          CarTechControlId,
           photos,
+          CarStickerId,
+          CarPinkCardId,
+          CarOwnerId,
+          CarAssuranceId,
         });
 
         if (response) {
-          await carAssuranceResponse?.setCarModel(response);
-          await carStickerResponse?.setCarModel(response);
-          await carPlateResponse?.setCarModel(response);
-          await carTechControlResponse?.setCarModel(response);
-          await carOwnerResponse?.setCarModel(response);
-          await carPinkCardResponse?.setCarModel(response);
-          await carTypeResponse?.setCarModel(response);
+          // await carAssuranceResponse?.setCarModel(response);
+          // await carStickerResponse?.setCarModel(response);
+          // await carPlateResponse?.setCarModel(response);
+          // await carTechControlResponse?.setCarModel(response);
+          // await carOwnerResponse?.setCarModel(response);
+          // await carPinkCardResponse?.setCarModel(response);
+          // await carTypeResponse?.setCarModel(response);
 
           res.status(200).json(<IServerResponse>{
             status: 200,

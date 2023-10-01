@@ -13,7 +13,7 @@ export const validate_car = (data: ICarAssurance) => {
     CarPinkCardId: Joi.string().required(),
     CarTypeId: Joi.string().required(),
     CarOwnerId: Joi.string().required(),
-    adminId: Joi.string().required(),
+    // adminId: Joi.string().required(),
   }).validate(data);
 };
 
