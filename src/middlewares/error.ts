@@ -11,7 +11,7 @@ export default class ExpressError extends Error {
     res.status(error.statusCode || 500).json(<IServerResponse>{
       status: error.statusCode || 500,
       message: error.message,
-      error: error.stack,
+      error: error,
       data: null,
     });
   }

@@ -28,35 +28,37 @@ export default class Car {
         if (!carAssuranceResponse)
           throw new httpError.NotFound("Car Assurance not found !");
 
-        const carStickerResponse : any = await CarStickerModel.findByPk(
+        const carStickerResponse: any = await CarStickerModel.findByPk(
           req.body.CarStickerId
         );
         if (!carStickerResponse)
           throw new httpError.NotFound("Car Sticker not found !");
 
-        const carPlateResponse : any = await CarPlateModel.findByPk(
+        const carPlateResponse: any = await CarPlateModel.findByPk(
           req.body.CarPlateId
         );
         if (!carPlateResponse)
           throw new httpError.NotFound("Car Plate not found !");
 
-        const carPinkCardResponse : any = await CarPinkCardModel.findByPk(
+        const carPinkCardResponse: any = await CarPinkCardModel.findByPk(
           req.body.CarPinkCardId
         );
         if (!carPinkCardResponse)
           throw new httpError.NotFound("Pink card not found !");
 
-        const carTechControlResponse : any = await CarTechControlModel.findByPk(
+        const carTechControlResponse: any = await CarTechControlModel.findByPk(
           req.body.CarTechControlId
         );
         if (!carTechControlResponse)
           throw new httpError.NotFound("Tech control not found !");
 
-        const carTypeResponse : any = await CarTypeModel.findByPk(req.body.CarTypeId);
+        const carTypeResponse: any = await CarTypeModel.findByPk(
+          req.body.CarTypeId
+        );
         if (!carTypeResponse)
           throw new httpError.NotFound("Car Type not found !");
 
-        const carOwnerResponse : any = await CarOwnerModel.findByPk(
+        const carOwnerResponse: any = await CarOwnerModel.findByPk(
           req.body.CarOwnerId
         );
         if (!carOwnerResponse)
@@ -86,6 +88,7 @@ export default class Car {
         } else throw new httpError.NotFound("Admin not found !");
       }
     } catch (error) {
+      console.log(error);
       next(error);
     }
   }
