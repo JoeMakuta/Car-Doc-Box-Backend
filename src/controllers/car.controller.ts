@@ -33,6 +33,15 @@ export default class Car {
       if (valid.error) {
         throw new httpError.Forbidden(valid.error?.details[0].message);
       } else {
+        const itExists = await CarModel.findOne({
+          where: {
+            chassisNumber,
+          },
+        });
+        if (itExists) {
+          throw new httpError.Forbidden("The chassis number already exists!");
+        }
+
         const carAssuranceResponse: any = await CarAssuranceModel.findByPk(
           CarAssuranceId
         );
@@ -71,25 +80,18 @@ export default class Car {
 
         const response = await req.auth.createCarModel({
           chassisNumber,
-          CarTypeId,
           carBrand,
-          CarPlateId,
-          CarTechControlId,
           photos,
-          CarStickerId,
-          CarPinkCardId,
-          CarOwnerId,
-          CarAssuranceId,
         });
 
         if (response) {
-          // await carAssuranceResponse?.setCarModel(response);
-          // await carStickerResponse?.setCarModel(response);
-          // await carPlateResponse?.setCarModel(response);
-          // await carTechControlResponse?.setCarModel(response);
-          // await carOwnerResponse?.setCarModel(response);
-          // await carPinkCardResponse?.setCarModel(response);
-          // await carTypeResponse?.setCarModel(response);
+          await carAssuranceResponse?.setCarModel(response);
+          await carStickerResponse?.setCarModel(response);
+          await carPlateResponse?.setCarModel(response);
+          await carTechControlResponse?.setCarModel(response);
+          await carOwnerResponse?.setCarModel(response);
+          await carPinkCardResponse?.setCarModel(response);
+          await carTypeResponse?.setCarModel(response);
 
           res.status(200).json(<IServerResponse>{
             status: 200,
