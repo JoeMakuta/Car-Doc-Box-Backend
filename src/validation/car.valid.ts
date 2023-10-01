@@ -8,7 +8,7 @@ export const validate_car = (data: ICarAssurance) => {
     photos: Joi.array().items(Joi.string()),
     CarAssuranceId: Joi.string().required(),
     CarStickerId: Joi.string().required(),
-    CarTechControl: Joi.string().required(),
+    CarTechControlId: Joi.string().required(),
     CarPlateId: Joi.string().required(),
     CarPinkCardId: Joi.string().required(),
     CarTypeId: Joi.string().required(),
