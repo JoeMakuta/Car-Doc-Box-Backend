@@ -89,9 +89,9 @@ export default class Car {
           await carStickerResponse?.setCarModel(response);
           await carPlateResponse?.setCarModel(response);
           await carTechControlResponse?.setCarModel(response);
-          await carOwnerResponse?.setCarModel(response);
+          await carOwnerResponse?.addCarModels(response);
           await carPinkCardResponse?.setCarModel(response);
-          await carTypeResponse?.setCarModel(response);
+          await carTypeResponse?.addCarModels(response);
 
           res.status(200).json(<IServerResponse>{
             status: 200,
