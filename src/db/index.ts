@@ -18,7 +18,7 @@ import PoliceAgent from "../controllers/policeAgent.controller";
 
 const dbconnexion = async () => {
   try {
-    // await sequelize.sync({ force: true });
+    // await sequelize.sync({ alter: true });
     await sequelize.sync();
     const users = await PoliceAgentModel.findAll();
     if (users[0]) {
